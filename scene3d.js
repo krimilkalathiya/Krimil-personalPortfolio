@@ -55,7 +55,7 @@ export function createScene(canvas, opts = {}) {
   const count = opts.count || 48;
   const accent = new THREE.Color(opts.accent || '#f0a35e');
   const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'high-performance' });
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 1.6));
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, window.innerWidth < 720 ? 1.25 : 1.6));
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
   renderer.toneMappingExposure = 1.05;
   const scene = new THREE.Scene();
@@ -146,7 +146,8 @@ export function createScene(canvas, opts = {}) {
     state.rot.y += (state.mouse.x * 0.55 - state.rot.y) * 0.05;
     root.rotation.x = state.rot.x;
     root.rotation.y = state.rot.y + Math.sin(t * 0.18) * 0.16;
-    const cz = camTargets[a] + (camTargets[b] - camTargets[a]) * k;
+    const portrait = camera.aspect < 1 ? (1 / camera.aspect) * 0.9 : 1;
+    const cz = (camTargets[a] + (camTargets[b] - camTargets[a]) * k) * portrait;
     camera.position.z += (cz + ex * 4 - camera.position.z) * 0.06;
     camera.lookAt(0, 0, 0);
     renderer.render(scene, camera);
