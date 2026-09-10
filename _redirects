@@ -1,1 +1,1 @@
-https://www.krimil.com/* https://krimil.com/:splat 301
+# www -> apex is handled by a Cloudflare Redirect Rule (see README)

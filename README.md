@@ -14,4 +14,6 @@ Animated 3D portfolio. Static site, no build step.
 3. Build settings: framework **None**, build command **(empty)**, output directory **/**.
 4. Custom domains → add `krimil.com` and `www.krimil.com` (DNS is already on Cloudflare, records are created for you).
 
-`_redirects` sends www → apex. `_headers` sets caching.
+**www → krimil.com:** Cloudflare dashboard → your krimil.com zone → Rules → Redirect Rules → Create → template "Redirect from WWW to root". (Workers static assets don't allow absolute URLs in `_redirects`.)
+
+`_headers` sets caching. `.assetsignore` keeps `.git` out of the upload.
