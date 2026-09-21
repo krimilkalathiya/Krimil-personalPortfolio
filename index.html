@@ -50,6 +50,10 @@
     [data-badge] { width:min(60px,15vw) !important; }
     [data-cert-text] { width:100%; }
     [data-cert-name] { font-size:9px !important; line-height:1.3 !important; overflow-wrap:anywhere; }
+    [data-contact-grid] { grid-template-columns:minmax(0,1fr) !important; gap:14px !important; }
+    [data-contact-form] { gap:7px !important; padding:12px !important; }
+    [data-contact-form] input, [data-contact-form] textarea { padding:9px 10px !important; font-size:16px !important; }
+    [data-contact-form] textarea { rows:2; }
     [data-typed] { display:none !important; }
   }
 </style>
@@ -164,19 +168,34 @@
     </section>
 
     <section data-ch="6" data-screen-label="07 Contact" style="height:100vh; scroll-snap-align:start; display:flex; flex-direction:column; justify-content:flex-end; overflow:hidden; padding:84px clamp(20px,4vw,48px) 64px;">
-      <div data-in="1" style="font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--accent); margin-bottom:22px; opacity:0; transform:translateY(24px); transition:opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1);">07 &mdash; contact</div>
-      <a data-in="1" href="mailto:kkrimil2003@gmail.com" style="display:block; font-weight:200; font-size:clamp(26px,5.4vw,84px); line-height:1; letter-spacing:-0.05em; overflow-wrap:anywhere; opacity:0; transform:translateY(30px); transition:opacity 1s cubic-bezier(.16,1,.3,1), transform 1s cubic-bezier(.16,1,.3,1), color .3s;">kkrimil2003@gmail.com</a>
-      <div data-in="1" style="display:flex; gap:28px; flex-wrap:wrap; margin-top:28px; font-size:13px; opacity:0; transform:translateY(24px); transition:opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1);">
-        <a href="tel:+13465659486" style="white-space:nowrap;">+1 (346) 565-9486</a>
-        <a href="https://www.linkedin.com/in/krimilkalathiya/" target="_blank" rel="noopener">linkedin &nearr;</a>
+      <div data-in="1" style="font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--accent); margin-bottom:18px; opacity:0; transform:translateY(24px); transition:opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1);">07 &mdash; contact</div>
+      <div data-contact-grid="1" style="display:grid; grid-template-columns:minmax(0,1fr) minmax(0,0.85fr); gap:clamp(20px,4vw,56px); align-items:end;">
+        <div style="min-width:0;">
+          <a data-in="1" href="mailto:kkrimil2003@gmail.com" style="display:block; font-weight:200; font-size:clamp(22px,3.8vw,58px); line-height:1.02; letter-spacing:-0.04em; overflow-wrap:anywhere; opacity:0; transform:translateY(30px); transition:opacity 1s cubic-bezier(.16,1,.3,1), transform 1s cubic-bezier(.16,1,.3,1), color .3s;">kkrimil2003@gmail.com</a>
+          <div data-in="1" style="display:flex; gap:24px; flex-wrap:wrap; margin-top:20px; font-size:13px; opacity:0; transform:translateY(24px); transition:opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1);">
+            <a href="tel:+13465659486" style="white-space:nowrap;">+1 (346) 565-9486</a>
+            <a href="https://www.linkedin.com/in/krimilkalathiya/" target="_blank" rel="noopener">linkedin &nearr;</a>
+          </div>
+          <div data-in="1" data-hide-m="1" style="display:flex; flex-wrap:wrap; gap:8px; margin-top:24px; opacity:0; transform:translateY(20px); transition:opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1);">
+            <sc-for list="{{ openTo }}" as="o" hint-placeholder-count="7">
+              <span style="display:inline-flex; white-space:nowrap; padding:6px 12px; border:1px solid rgba(242,239,233,0.16); border-radius:999px; font-size:11px; letter-spacing:0.06em; color:rgba(242,239,233,0.7);">{{ o }}</span>
+            </sc-for>
+          </div>
+        </div>
+
+        <form data-in="1" data-contact-form="1" onSubmit="{{ onSubmit }}" style="display:grid; gap:9px; padding:clamp(14px,2.4vh,22px) clamp(14px,1.6vw,22px); border:1px solid rgba(242,239,233,0.14); background:rgba(10,10,9,0.6); backdrop-filter:blur(8px); opacity:0; transform:translateY(24px); transition:opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1);">
+          <div style="display:flex; justify-content:space-between; align-items:baseline; gap:12px; font-size:10px; letter-spacing:0.16em; text-transform:uppercase; color:rgba(242,239,233,0.42);"><span>send a message</span><span style="color:var(--accent);">{{ formHint }}</span></div>
+          <input name="name" type="text" placeholder="name" required="required" autoComplete="name" style="appearance:none; width:100%; padding:10px 12px; border:1px solid rgba(242,239,233,0.16); background:rgba(242,239,233,0.03); color:#f2efe9; font:inherit; font-size:12.5px; outline:none; transition:border-color .25s;" style-focus="border-color:var(--accent);" />
+          <input name="email" type="email" placeholder="email" required="required" autoComplete="email" style="appearance:none; width:100%; padding:10px 12px; border:1px solid rgba(242,239,233,0.16); background:rgba(242,239,233,0.03); color:#f2efe9; font:inherit; font-size:12.5px; outline:none; transition:border-color .25s;" style-focus="border-color:var(--accent);" />
+          <input name="company" type="text" placeholder="company (optional)" autoComplete="organization" style="appearance:none; width:100%; padding:10px 12px; border:1px solid rgba(242,239,233,0.16); background:rgba(242,239,233,0.03); color:#f2efe9; font:inherit; font-size:12.5px; outline:none; transition:border-color .25s;" style-focus="border-color:var(--accent);" />
+          <textarea name="message" rows="3" placeholder="tell me a bit about it" required="required" style="appearance:none; width:100%; padding:10px 12px; border:1px solid rgba(242,239,233,0.16); background:rgba(242,239,233,0.03); color:#f2efe9; font:inherit; font-size:12.5px; line-height:1.5; resize:none; outline:none; transition:border-color .25s;" style-focus="border-color:var(--accent);"></textarea>
+          <input name="_gotcha" type="text" tabIndex="-1" autoComplete="off" aria-hidden="true" style="position:absolute; left:-9999px; width:1px; height:1px; opacity:0;" />
+          <button type="submit" disabled="{{ sending }}" style="appearance:none; margin-top:2px; padding:11px 16px; border:none; background:var(--accent); color:#0a0a09; font:inherit; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; cursor:pointer; transition:filter .25s;" style-hover="filter:brightness(1.12);">{{ sendLabel }}</button>
+          <div style="min-height:1.3em; font-size:10.5px; letter-spacing:0.08em; color:{{ statusColor }};">{{ status }}</div>
+        </form>
       </div>
-      <div data-in="1" data-hide-m="1" style="display:flex; flex-wrap:wrap; gap:8px; margin-top:34px; opacity:0; transform:translateY(20px); transition:opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1);">
-        <sc-for list="{{ openTo }}" as="o" hint-placeholder-count="7">
-          <span style="display:inline-flex; white-space:nowrap; padding:6px 12px; border:1px solid rgba(242,239,233,0.16); border-radius:999px; font-size:11px; letter-spacing:0.06em; color:rgba(242,239,233,0.7);">{{ o }}</span>
-        </sc-for>
-      </div>
-      <div data-in="1" style="display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap; margin-top:40px; font-size:10.5px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(242,239,233,0.32); opacity:0; transition:opacity .9s;">
-        <span>krimil kalathiya &mdash; houston, tx</span>
+      <div data-in="1" style="display:flex; justify-content:space-between; gap:14px; flex-wrap:wrap; margin-top:26px; font-size:10.5px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(242,239,233,0.32); opacity:0; transition:opacity .9s;">
+        <span>krimil kalathiya &mdash; houston, tx &middot; central time</span>
         <span>&copy; 2026 &middot; built with three.js</span>
       </div>
     </section>
@@ -205,7 +224,7 @@
   </div>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;motion&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;full&quot;,&quot;off&quot;],&quot;default&quot;:&quot;full&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Scene&quot;},&quot;blockCount&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:48,&quot;min&quot;:12,&quot;max&quot;:120,&quot;step&quot;:6,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Scene&quot;},&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;options&quot;:[&quot;#f0a35e&quot;,&quot;#7fd1b9&quot;,&quot;#8fb3ff&quot;,&quot;#e88a7a&quot;],&quot;default&quot;:&quot;#f0a35e&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Scene&quot;},&quot;soundDefault&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Scene&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;motion&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;full&quot;,&quot;off&quot;],&quot;default&quot;:&quot;full&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Scene&quot;},&quot;blockCount&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:48,&quot;min&quot;:12,&quot;max&quot;:120,&quot;step&quot;:6,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Scene&quot;},&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;options&quot;:[&quot;#f0a35e&quot;,&quot;#7fd1b9&quot;,&quot;#8fb3ff&quot;,&quot;#e88a7a&quot;],&quot;default&quot;:&quot;#f0a35e&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Scene&quot;},&quot;soundDefault&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Scene&quot;},&quot;formEndpoint&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;https://formspree.io/f/xvkgaavo&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Contact&quot;}}">
 class Component extends DCLogic {
   constructor(p) {
     super(p);
@@ -216,12 +235,36 @@ class Component extends DCLogic {
     this.hueRef = React.createRef();
     let hue = null;
     try { const v = localStorage.getItem('kk-accent-hue'); if (v != null) hue = Number(v); } catch (e) {}
-    this.state = { chapter: 0, clock: '--:--:--', typed: '', introPct: 0, introLog: '', sound: this.props.soundDefault ?? true, hue, dragging: false };
+    this.state = { chapter: 0, clock: '--:--:--', typed: '', introPct: 0, introLog: '', sound: this.props.soundDefault ?? true, hue, dragging: false, sending: false, status: '', statusOk: true };
     this.phrases = ['deploying: aws · kubernetes · terraform · ci/cd', 'scanning: sonarqube · owasp zap · trivy', 'observing: prometheus · grafana · cloudwatch', 'status: open to cloud / devops / sre roles'];
   }
 
   componentDidUpdate(prev) {
     if (prev.accent !== this.props.accent) this.applyAccent();
+  }
+
+  async submitForm(e) {
+    e.preventDefault();
+    const form = e.target;
+    const d = new FormData(form);
+    if (d.get('_gotcha')) return;
+    const endpoint = this.props.formEndpoint ?? 'https://formspree.io/f/xvkgaavo';
+    if (!endpoint) {
+      const body = 'From: ' + d.get('name') + ' (' + d.get('email') + ')' + (d.get('company') ? '\nCompany: ' + d.get('company') : '') + '\n\n' + d.get('message');
+      window.location.href = 'mailto:kkrimil2003@gmail.com?subject=' + encodeURIComponent('Portfolio enquiry — ' + d.get('name')) + '&body=' + encodeURIComponent(body);
+      this.setState({ status: 'opening your mail app…', statusOk: true });
+      return;
+    }
+    this.setState({ sending: true, status: '', statusOk: true });
+    try {
+      const res = await fetch(endpoint, { method: 'POST', headers: { Accept: 'application/json' }, body: d });
+      if (!res.ok) throw new Error(res.status);
+      form.reset();
+      this.setState({ sending: false, status: 'sent — I’ll reply soon.', statusOk: true });
+      this.blip(720, 0.05);
+    } catch (err) {
+      this.setState({ sending: false, status: 'failed — email kkrimil2003@gmail.com', statusOk: false });
+    }
   }
 
   accentCss() {
@@ -459,6 +502,12 @@ class Component extends DCLogic {
         { dates: 'Aug 2025 — May 2027', degree: 'MS, Computer Science', school: 'University of Houston–Clear Lake · Houston, TX' },
         { dates: 'Jun 2021 — May 2025', degree: 'BTech, Information Technology', school: 'Charotar University of Science and Technology · Gujarat, India' }
       ],
+      sending: this.state.sending,
+      sendLabel: this.state.sending ? 'sending…' : 'send message',
+      status: this.state.status || '',
+      statusColor: this.state.statusOk === false ? 'oklch(0.72 0.17 25)' : 'var(--accent)',
+      formHint: 'direct to inbox',
+      onSubmit: (e) => this.submitForm(e),
       openTo: ['Cloud Engineer', 'DevOps Engineer', 'SRE', 'Platform Engineer', 'Cloud Infrastructure', 'DevSecOps', 'Cloud Operations']
     };
   }
