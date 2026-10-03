@@ -27,7 +27,15 @@
   @keyframes pulse { 0%,100% { opacity:1;} 50% { opacity:.3;} }
   @keyframes scrollHint { 0% { transform:translateY(-100%);} 100% { transform:translateY(100%);} }
   @keyframes scan { from { transform:translateY(-100%);} to { transform:translateY(100vh);} }
-  [data-ch] { height:100dvh !important; }
+  [data-ch] { height:auto !important; min-height:100vh; min-height:100dvh; overflow:visible !important; }
+  @media (max-height: 760px) {
+    [data-work-grid] p { font-size:11px !important; line-height:1.5 !important; }
+    [data-work-grid] h3 { margin:8px 0 6px !important; font-size:14px !important; }
+    [data-work-grid] > div { padding:10px 14px 12px !important; }
+    [data-work-grid] > div > div:last-child { margin-top:8px !important; }
+    [data-ch="3"] > div:first-child { margin-bottom:12px !important; }
+  }
+
   @media (max-width: 720px) {
     [data-ch] { justify-content:flex-end !important; padding-top:72px !important; padding-bottom:28px !important; }
     [data-ch="1"] { grid-template-columns:minmax(0,1fr) !important; }
@@ -72,13 +80,13 @@
     <span data-mobile-hide="1" style="display:flex; align-items:center; gap:10px;"><span style="width:6px; height:6px; border-radius:50%; background:oklch(0.8 0.16 145); animation:pulse 2s infinite;"></span>houston, tx &mdash; {{ clock }}</span>
     <span style="display:flex; align-items:center; gap:22px;">
       <span style="font-variant-numeric:tabular-nums;">{{ chapterLabel }} / 07</span>
-      <button onClick="{{ toggleSound }}" style="appearance:none; background:none; border:1px solid rgba(242,239,233,0.2); border-radius:999px; color:inherit; font:inherit; letter-spacing:inherit; text-transform:inherit; padding:7px 12px; cursor:pointer; display:inline-flex; align-items:center; gap:8px; transition:border-color .3s;" style-hover="border-color:var(--accent);">synth sound <span style="color:var(--accent);">{{ soundLabel }}</span></button>
+      <button data-sound-toggle="1" onClick="{{ toggleSound }}" style="appearance:none; background:none; border:1px solid rgba(242,239,233,0.2); border-radius:999px; color:inherit; font:inherit; letter-spacing:inherit; text-transform:inherit; padding:7px 12px; cursor:pointer; display:inline-flex; align-items:center; gap:8px; transition:border-color .3s;" style-hover="border-color:var(--accent);">sound <span style="color:var(--accent);">{{ soundLabel }}</span></button>
     </span>
   </header>
 
   <div ref="{{ scrollRef }}" style="position:absolute; inset:0; z-index:4; overflow-y:auto; overflow-x:hidden; scroll-snap-type:y mandatory; scrollbar-width:none;">
 
-    <section data-ch="0" data-screen-label="01 Hero" style="height:100vh; scroll-snap-align:start; display:flex; flex-direction:column; justify-content:flex-end; overflow:hidden; padding:84px clamp(20px,4vw,48px) clamp(36px,7vh,72px);">
+    <section data-ch="0" data-screen-label="01 Hero" style="height:100vh; scroll-snap-align:start; display:flex; flex-direction:column; justify-content:flex-end; overflow:hidden; padding:84px clamp(20px,4vw,48px) 72px;">
       <div data-in="1" style="font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--accent); margin-bottom:22px; opacity:0; transform:translateY(24px); transition:opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1);">cloud &amp; devops engineer &mdash; aws certified solutions architect</div>
       <h1 data-in="1" style="margin:0; font-weight:200; font-size:clamp(44px,8.6vw,132px); line-height:0.92; letter-spacing:-0.05em; text-transform:uppercase; opacity:0; transform:translateY(30px); transition:opacity 1s cubic-bezier(.16,1,.3,1), transform 1s cubic-bezier(.16,1,.3,1);">Krimil<br />Kalathiya</h1>
       <div data-in="1" style="display:flex; justify-content:space-between; align-items:flex-end; gap:24px; flex-wrap:wrap; margin-top:34px; opacity:0; transform:translateY(20px); transition:opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1);">
@@ -87,7 +95,7 @@
       </div>
     </section>
 
-    <section data-ch="1" data-screen-label="02 About" style="height:100vh; scroll-snap-align:start; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); align-items:end; gap:32px; overflow:hidden; padding:84px clamp(20px,4vw,48px) clamp(36px,7vh,72px);">
+    <section data-ch="1" data-screen-label="02 About" style="height:100vh; scroll-snap-align:start; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); align-items:end; gap:32px; overflow:hidden; padding:84px clamp(20px,4vw,48px) 72px;">
       <div style="grid-column:1 / -1; max-width:760px;">
         <div data-in="1" style="font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--accent); margin-bottom:22px; opacity:0; transform:translateY(24px); transition:opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1);">02 &mdash; about</div>
         <h2 data-in="1" style="margin:0; font-weight:300; font-size:clamp(24px,3.6vw,48px); line-height:1.15; letter-spacing:-0.03em; text-wrap:pretty; opacity:0; transform:translateY(30px); transition:opacity 1s cubic-bezier(.16,1,.3,1), transform 1s cubic-bezier(.16,1,.3,1);">I design, deploy and automate cloud-native infrastructure on AWS and Oracle Cloud &mdash; Kubernetes, Terraform, Docker, CI/CD and DevSecOps.</h2>
@@ -114,21 +122,21 @@
       </div>
     </section>
 
-    <section data-ch="3" data-screen-label="04 Work" style="height:100vh; scroll-snap-align:start; display:flex; flex-direction:column; justify-content:flex-end; overflow:hidden; padding:84px clamp(20px,4vw,48px) clamp(36px,7vh,72px);">
+    <section data-ch="3" data-screen-label="04 Work" style="height:100vh; scroll-snap-align:start; display:flex; flex-direction:column; justify-content:flex-end; overflow:hidden; padding:84px clamp(20px,4vw,48px) 72px;">
       <div data-in="1" style="font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--accent); margin-bottom:22px; opacity:0; transform:translateY(24px); transition:opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1);">04 &mdash; selected work &middot; hover a project to light its tower</div>
-      <div data-cols-2="1" style="display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,210px),1fr)); gap:1px; background:rgba(242,239,233,0.12); border:1px solid rgba(242,239,233,0.12);">
-        <sc-for list="{{ projects }}" as="p" hint-placeholder-count="3">
-          <div data-in="1" data-tower="{{ $index }}" onMouseEnter="{{ p.focus }}" onMouseLeave="{{ unfocus }}" style="padding:22px 22px 26px; background:rgba(10,10,9,0.6); backdrop-filter:blur(6px); cursor:default; opacity:0; transform:translateY(24px); transition:opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1), background .35s;" style-hover="background:rgba(242,239,233,0.06);">
+      <div data-cols-2="1" data-work-grid="1" style="display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1px; background:rgba(242,239,233,0.12); border:1px solid rgba(242,239,233,0.12);">
+        <sc-for list="{{ projects }}" as="p" hint-placeholder-count="6">
+          <div data-in="1" data-tower="{{ $index }}" onMouseEnter="{{ p.focus }}" onMouseLeave="{{ unfocus }}" style="padding:clamp(12px,2.2vh,22px) clamp(14px,1.6vw,22px); background:rgba(10,10,9,0.6); backdrop-filter:blur(6px); cursor:default; opacity:0; transform:translateY(24px); transition:opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1), background .35s;" style-hover="background:rgba(242,239,233,0.06);">
             <div style="display:flex; justify-content:space-between; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:rgba(242,239,233,0.45);"><span>{{ p.tag }}</span><span style="color:var(--accent);">{{ p.num }}</span></div>
             <h3 style="margin:16px 0 12px; font-weight:400; font-size:clamp(15px,1.4vw,18px); line-height:1.35; letter-spacing:-0.01em;">{{ p.title }}</h3>
-            <p data-hide-m="1" style="margin:0; font-size:12px; line-height:1.65; color:rgba(242,239,233,0.6); text-wrap:pretty; display:-webkit-box; -webkit-line-clamp:6; -webkit-box-orient:vertical; overflow:hidden;">{{ p.blurb }}</p>
+            <p style="margin:0; font-size:12px; line-height:1.6; color:rgba(242,239,233,0.68); text-wrap:pretty;">{{ p.blurb }}</p>
             <div style="margin-top:16px; font-size:11px; letter-spacing:0.08em; color:rgba(242,239,233,0.4);">{{ p.stack }}</div>
           </div>
         </sc-for>
       </div>
     </section>
 
-    <section data-ch="4" data-screen-label="05 Certifications" style="height:100vh; scroll-snap-align:start; display:flex; flex-direction:column; justify-content:flex-end; overflow:hidden; padding:84px clamp(20px,4vw,48px) clamp(56px,9vh,72px);">
+    <section data-ch="4" data-screen-label="05 Certifications" style="height:100vh; scroll-snap-align:start; display:flex; flex-direction:column; justify-content:flex-end; overflow:hidden; padding:84px clamp(20px,4vw,48px) 72px;">
       <div data-in="1" style="display:flex; justify-content:space-between; align-items:baseline; gap:20px; flex-wrap:wrap; margin-bottom:18px; font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--accent); opacity:0; transform:translateY(24px); transition:opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1);"><span>05 &mdash; certifications</span><span style="color:rgba(242,239,233,0.4);">18+ total &middot; 9 shown</span></div>
       <div data-cert-grid="1" style="display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:1px; background:rgba(242,239,233,0.12); border:1px solid rgba(242,239,233,0.12);">
         <sc-for list="{{ certs }}" as="c" hint-placeholder-count="9">
@@ -144,7 +152,7 @@
       <div data-in="1" style="margin-top:12px; font-size:11px; letter-spacing:0.1em; color:rgba(242,239,233,0.4); opacity:0; transform:translateY(20px); transition:opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1);">publication &mdash; IEEE, ICICIT 2024, Bangkok: &ldquo;Navigating the Cloudscape: Framework and Strategies for Seamless Migration to the Cloud&rdquo;</div>
     </section>
 
-    <section data-ch="5" data-screen-label="06 Stack" style="height:100vh; scroll-snap-align:start; display:flex; flex-direction:column; justify-content:flex-end; overflow:hidden; padding:84px clamp(20px,4vw,48px) clamp(56px,9vh,72px);">
+    <section data-ch="5" data-screen-label="06 Stack" style="height:100vh; scroll-snap-align:start; display:flex; flex-direction:column; justify-content:flex-end; overflow:hidden; padding:84px clamp(20px,4vw,48px) 72px;">
       <div data-in="1" style="font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--accent); margin-bottom:22px; opacity:0; transform:translateY(24px); transition:opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1);">06 &mdash; stack &amp; education</div>
       <div data-stack-grid="1" style="display:grid; grid-template-columns:minmax(0,1.6fr) minmax(0,1fr); gap:clamp(14px,2vw,32px); align-items:end;">
         <div data-stack-rows="1" style="display:grid; gap:1px; background:rgba(242,239,233,0.12); border:1px solid rgba(242,239,233,0.14);">
@@ -167,7 +175,7 @@
       </div>
     </section>
 
-    <section data-ch="6" data-screen-label="07 Contact" style="height:100vh; scroll-snap-align:start; display:flex; flex-direction:column; justify-content:flex-end; overflow:hidden; padding:84px clamp(20px,4vw,48px) 64px;">
+    <section data-ch="6" data-screen-label="07 Contact" style="height:100vh; scroll-snap-align:start; display:flex; flex-direction:column; justify-content:flex-end; overflow:hidden; padding:84px clamp(20px,4vw,48px) 72px;">
       <div data-in="1" style="font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--accent); margin-bottom:18px; opacity:0; transform:translateY(24px); transition:opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1);">07 &mdash; contact</div>
       <div data-contact-grid="1" style="display:grid; grid-template-columns:minmax(0,1fr) minmax(0,0.85fr); gap:clamp(20px,4vw,56px); align-items:end;">
         <div style="min-width:0;">
@@ -235,7 +243,7 @@ class Component extends DCLogic {
     this.hueRef = React.createRef();
     let hue = null;
     try { const v = localStorage.getItem('kk-accent-hue'); if (v != null) hue = Number(v); } catch (e) {}
-    this.state = { chapter: 0, clock: '--:--:--', typed: '', introPct: 0, introLog: '', sound: this.props.soundDefault ?? true, hue, dragging: false, sending: false, status: '', statusOk: true };
+    this.state = { chapter: 0, clock: '--:--:--', typed: '', introPct: 0, introLog: '', sound: (() => { try { const v = localStorage.getItem('kk-sound'); if (v != null) return v === '1'; } catch (e) {} return this.props.soundDefault ?? true; })(), audioReady: false, hue, dragging: false, sending: false, status: '', statusOk: true };
     this.phrases = ['deploying: aws · kubernetes · terraform · ci/cd', 'scanning: sonarqube · owasp zap · trivy', 'observing: prometheus · grafana · cloudwatch', 'status: open to cloud / devops / sre roles'];
   }
 
@@ -261,9 +269,10 @@ class Component extends DCLogic {
       if (!res.ok) throw new Error(res.status);
       form.reset();
       this.setState({ sending: false, status: 'sent — I’ll reply soon.', statusOk: true });
-      this.blip(720, 0.05);
+      this.sfx('success');
     } catch (err) {
       this.setState({ sending: false, status: 'failed — email kkrimil2003@gmail.com', statusOk: false });
+      this.sfx('error');
     }
   }
 
@@ -299,7 +308,7 @@ class Component extends DCLogic {
       this.applyAccent();
       try { localStorage.setItem('kk-accent-hue', String(h)); } catch (err) {}
     });
-    if (!this.lastBlip || performance.now() - this.lastBlip > 70) { this.blip(240 + h * 1.6, 0.02); this.lastBlip = performance.now(); }
+    if (this.hueOsc) this.hueSet(h);
   }
 
   componentDidMount() {
@@ -324,10 +333,32 @@ class Component extends DCLogic {
       if (this.scene && e.gamma != null) this.scene.setMouse(Math.max(-1, Math.min(1, e.gamma / 30)), Math.max(-1, Math.min(1, (e.beta - 45) / 30)));
     };
     if (window.matchMedia('(pointer: coarse)').matches) window.addEventListener('deviceorientation', this.onTilt, { passive: true });
-    this.armAudio = () => { this.ensureAudio(); };
-    window.addEventListener('pointerdown', this.armAudio, { once: true });
-    window.addEventListener('keydown', this.armAudio, { once: true });
-    window.addEventListener('wheel', this.armAudio, { once: true, passive: true });
+    this.armAudio = () => {
+      if (!this.state.sound) return;
+      const first = !this.audio || this.audio.state !== 'running';
+      this.ensureAudio();
+      if (first) setTimeout(() => this.sfx('on'), 60);
+    };
+    ['pointerdown', 'keydown', 'touchend'].forEach(ev => window.addEventListener(ev, this.armAudio, { passive: true }));
+    // delegated UI sounds for the whole page
+    const hoverSel = 'a, button, input, textarea, [data-tower], [data-cert-grid] > div, [data-exp-grid] > div, [data-edu] > div, [data-stack-rows] > div';
+    this.onOver = (e) => {
+      const el = e.target.closest && e.target.closest(hoverSel);
+      if (!el || el === this.lastHoverEl || (e.relatedTarget && el.contains(e.relatedTarget))) return;
+      this.lastHoverEl = el;
+      if (!el.hasAttribute('data-tower')) this.sfx('hover');
+    };
+    this.onOut = (e) => { const el = e.target.closest && e.target.closest(hoverSel); if (el && !(e.relatedTarget && el.contains(e.relatedTarget))) this.lastHoverEl = null; };
+    this.onClickSfx = (e) => { const el = e.target.closest && e.target.closest('a, button'); if (el && !el.hasAttribute('data-sound-toggle')) this.sfx('click'); };
+    this.onFocusSfx = (e) => { if (e.target.matches && e.target.matches('input, textarea')) this.sfx('focus'); };
+    this.onKeySfx = (e) => { if (e.target.matches && e.target.matches('input, textarea') && e.key.length === 1) this.sfx('key'); };
+    this.onVis = () => { if (!this.audio) return; if (document.hidden) this.audio.suspend(); else if (this.state.sound) this.audio.resume(); };
+    document.addEventListener('pointerover', this.onOver);
+    document.addEventListener('pointerout', this.onOut);
+    document.addEventListener('click', this.onClickSfx);
+    document.addEventListener('focusin', this.onFocusSfx);
+    document.addEventListener('keydown', this.onKeySfx);
+    document.addEventListener('visibilitychange', this.onVis);
     this.revealChapter(0);
   }
 
@@ -337,9 +368,13 @@ class Component extends DCLogic {
     if (this.scrollRef.current) this.scrollRef.current.removeEventListener('scroll', this.onScroll);
     window.removeEventListener('mousemove', this.onMove);
     window.removeEventListener('deviceorientation', this.onTilt);
-    window.removeEventListener('pointerdown', this.armAudio);
-    window.removeEventListener('keydown', this.armAudio);
-    window.removeEventListener('wheel', this.armAudio);
+    ['pointerdown', 'keydown', 'touchend'].forEach(ev => window.removeEventListener(ev, this.armAudio));
+    document.removeEventListener('pointerover', this.onOver);
+    document.removeEventListener('pointerout', this.onOut);
+    document.removeEventListener('click', this.onClickSfx);
+    document.removeEventListener('focusin', this.onFocusSfx);
+    document.removeEventListener('keydown', this.onKeySfx);
+    document.removeEventListener('visibilitychange', this.onVis);
     if (this.audio) this.audio.close();
   }
 
@@ -370,7 +405,7 @@ class Component extends DCLogic {
       if (k < 1) requestAnimationFrame(step);
       else {
         box.style.opacity = '0'; box.style.visibility = 'hidden';
-        this.blip(520, 0.06);
+        this.sfx('boot');
         this.introT = setTimeout(() => this.revealChapter(0), 150);
       }
     };
@@ -381,7 +416,19 @@ class Component extends DCLogic {
     const sc = this.scrollRef.current;
     if (!sc) return;
     const vh = sc.clientHeight || window.innerHeight;
-    const p = sc.scrollTop / vh;
+    // chapters can be taller than the viewport, so map scroll to progress via real section offsets
+    const secs = Array.from(sc.querySelectorAll('[data-ch]'));
+    const y = sc.scrollTop;
+    let p = 0;
+    for (let i = 0; i < secs.length; i++) {
+      const top = secs[i].offsetTop, nextTop = i + 1 < secs.length ? secs[i + 1].offsetTop : top + secs[i].offsetHeight;
+      const settle = Math.max(0, (nextTop - top) - vh);
+      if (y < nextTop || i === secs.length - 1) {
+        const into = y - top;
+        p = i + (into <= settle ? 0 : Math.min(1, (into - settle) / Math.max(1, vh)));
+        break;
+      }
+    }
     if (this.scene) this.scene.setProgress(p);
     const ch = Math.max(0, Math.min(6, Math.round(p)));
     const frac = p - Math.floor(p);
@@ -392,7 +439,7 @@ class Component extends DCLogic {
     if (ch !== this.state.chapter) {
       this.setState({ chapter: ch });
       this.revealChapter(ch);
-      this.blip(360 + ch * 40, 0.045);
+      this.sfx('chapter', ch);
     }
   }
 
@@ -429,27 +476,101 @@ class Component extends DCLogic {
   }
 
   ensureAudio() {
-    if (this.audio) return;
-    try { this.audio = new (window.AudioContext || window.webkitAudioContext)(); } catch (e) { this.audio = null; }
+    if (!this.audio) {
+      try {
+        const a = new (window.AudioContext || window.webkitAudioContext)();
+        const comp = a.createDynamicsCompressor();
+        comp.threshold.value = -18; comp.ratio.value = 4;
+        const master = a.createGain(); master.gain.value = 0.9;
+        master.connect(comp).connect(a.destination);
+        const len = a.sampleRate * 0.6, buf = a.createBuffer(1, len, a.sampleRate), d = buf.getChannelData(0);
+        for (let i = 0; i < len; i++) d[i] = Math.random() * 2 - 1;
+        this.audio = a; this.master = master; this.noise = buf;
+        a.onstatechange = () => this.setState({ audioReady: a.state === 'running' });
+      } catch (e) { this.audio = null; return; }
+    }
+    if (this.audio.state === 'suspended') this.audio.resume().then(() => this.setState({ audioReady: true })).catch(() => {});
   }
 
-  blip(freq, gain) {
-    if (!this.state.sound || !this.audio) return;
-    const a = this.audio;
-    if (a.state === 'suspended') a.resume();
+  tone(type, f0, f1, dur, vol, when) {
+    const a = this.audio, t = a.currentTime + (when || 0);
     const o = a.createOscillator(), g = a.createGain();
-    o.type = 'sine'; o.frequency.setValueAtTime(freq, a.currentTime);
-    o.frequency.exponentialRampToValueAtTime(freq * 0.6, a.currentTime + 0.12);
-    g.gain.setValueAtTime(0, a.currentTime);
-    g.gain.linearRampToValueAtTime(gain, a.currentTime + 0.01);
-    g.gain.exponentialRampToValueAtTime(0.0001, a.currentTime + 0.16);
-    o.connect(g).connect(a.destination);
-    o.start(); o.stop(a.currentTime + 0.18);
+    o.type = type; o.frequency.setValueAtTime(f0, t);
+    if (f1 && f1 !== f0) o.frequency.exponentialRampToValueAtTime(f1, t + dur);
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(vol, t + 0.008);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    o.connect(g).connect(this.master);
+    o.start(t); o.stop(t + dur + 0.02);
+  }
+
+  hiss(fromHz, toHz, dur, vol, q) {
+    const a = this.audio, t = a.currentTime;
+    const n = a.createBufferSource(); n.buffer = this.noise;
+    const bp = a.createBiquadFilter(); bp.type = 'bandpass'; bp.Q.value = q || 1.2;
+    bp.frequency.setValueAtTime(fromHz, t); bp.frequency.exponentialRampToValueAtTime(toHz, t + dur);
+    const g = a.createGain();
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(vol, t + dur * 0.35);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + dur);
+    n.connect(bp).connect(g).connect(this.master);
+    n.start(t); n.stop(t + dur + 0.02);
+  }
+
+  sfx(kind, arg) {
+    if (!this.state.sound || !this.audio || this.audio.state !== 'running') return;
+    const now = performance.now();
+    if (kind === 'hover' || kind === 'key') { if (this.lastTick && now - this.lastTick < (kind === 'key' ? 30 : 60)) return; this.lastTick = now; }
+    switch (kind) {
+      case 'hover': this.tone('triangle', 1900, 1500, 0.045, 0.035); break;
+      case 'key': this.tone('square', 2400 + Math.random() * 400, 1800, 0.018, 0.012); break;
+      case 'click': this.tone('sine', 880, 660, 0.08, 0.09); this.tone('sine', 1320, 1320, 0.06, 0.04, 0.03); break;
+      case 'focus': this.tone('sine', 520, 780, 0.12, 0.05); break;
+      case 'chapter': {
+        const base = 110 * Math.pow(2, (arg || 0) / 7);
+        this.hiss(arg > (this.prevCh ?? -1) ? 500 : 3500, arg > (this.prevCh ?? -1) ? 3500 : 500, 0.42, 0.11, 0.9);
+        this.tone('sine', base, base, 0.5, 0.11, 0.06);
+        this.tone('sine', base * 1.5, base * 1.5, 0.4, 0.05, 0.08);
+        this.prevCh = arg; break; }
+      case 'tower': { const f = 330 * Math.pow(2, (arg || 0) / 6); this.tone('triangle', f, f, 0.22, 0.07); this.tone('sine', f * 2, f * 2, 0.16, 0.03, 0.02); break; }
+      case 'boot': this.hiss(200, 2400, 0.9, 0.08, 0.7); this.tone('sine', 55, 110, 0.9, 0.14); this.tone('sine', 220, 440, 0.6, 0.05, 0.3); break;
+      case 'on': [523, 659, 784].forEach((f, i) => this.tone('sine', f, f, 0.16, 0.08, i * 0.06)); break;
+      case 'success': [523, 659, 784, 1047].forEach((f, i) => this.tone('triangle', f, f, 0.22, 0.08, i * 0.08)); break;
+      case 'error': this.tone('sawtooth', 220, 140, 0.3, 0.05); break;
+    }
+  }
+
+  hueStart(h) {
+    if (!this.state.sound || !this.audio || this.audio.state !== 'running' || this.hueOsc) return;
+    const a = this.audio, o = a.createOscillator(), o2 = a.createOscillator(), g = a.createGain(), lp = a.createBiquadFilter();
+    o.type = 'sawtooth'; o2.type = 'sine'; lp.type = 'lowpass'; lp.frequency.value = 1400; lp.Q.value = 6;
+    g.gain.setValueAtTime(0.0001, a.currentTime); g.gain.exponentialRampToValueAtTime(0.045, a.currentTime + 0.05);
+    o.connect(lp); o2.connect(lp); lp.connect(g).connect(this.master);
+    o.start(); o2.start();
+    this.hueOsc = { o, o2, g, lp };
+    this.hueSet(h);
+  }
+
+  hueSet(h) {
+    if (!this.hueOsc) return;
+    const t = this.audio.currentTime, f = 110 * Math.pow(2, (h / 360) * 3);
+    this.hueOsc.o.frequency.setTargetAtTime(f, t, 0.03);
+    this.hueOsc.o2.frequency.setTargetAtTime(f * 2, t, 0.03);
+    this.hueOsc.lp.frequency.setTargetAtTime(600 + (h / 360) * 2600, t, 0.05);
+  }
+
+  hueStop() {
+    if (!this.hueOsc) return;
+    const { o, o2, g } = this.hueOsc, t = this.audio.currentTime;
+    g.gain.setTargetAtTime(0.0001, t, 0.06);
+    o.stop(t + 0.3); o2.stop(t + 0.3);
+    this.hueOsc = null;
+    this.sfx('click');
   }
 
   renderVals() {
     const ch = this.state.chapter;
-    const focus = (i) => () => { if (this.scene) this.scene.setFocus(i); this.blip(640 + i * 60, 0.03); };
+    const focus = (i) => () => { if (this.scene) this.scene.setFocus(i); this.sfx('tower', i); };
     return {
       canvasRef: this.canvasRef, scrollRef: this.scrollRef, numRef: this.numRef, introRef: this.introRef,
       numeral: '0' + (ch + 1),
@@ -458,21 +579,29 @@ class Component extends DCLogic {
       typed: this.state.typed,
       introPct: this.state.introPct,
       introLog: this.state.introLog,
-      soundLabel: this.state.sound ? 'on' : 'off',
+      soundLabel: !this.state.sound ? 'off' : (this.state.audioReady ? 'on' : 'tap to enable'),
       hueRef: this.hueRef,
       huePct: ((this.state.hue == null ? 65 : this.state.hue) / 3.6).toFixed(2) + '%',
       hueLabel: (this.state.hue == null ? 65 : this.state.hue) + '°',
-      hueDown: (e) => { e.currentTarget.setPointerCapture(e.pointerId); this.ensureAudio(); this.setState({ dragging: true }); this.setHue(this.hueFromEvent(e)); },
+      hueDown: (e) => { e.currentTarget.setPointerCapture(e.pointerId); this.ensureAudio(); this.setState({ dragging: true }); const h = this.hueFromEvent(e); this.hueStart(h ?? 65); this.setHue(h); },
       hueMove: (e) => { if (this.state.dragging) this.setHue(this.hueFromEvent(e)); },
-      hueUp: () => { if (this.state.dragging) { this.setState({ dragging: false }); this.blip(560, 0.04); } },
-      toggleSound: () => { this.ensureAudio(); this.setState(s => ({ sound: !s.sound }), () => this.blip(this.state.sound ? 700 : 300, 0.05)); },
+      hueUp: () => { if (this.state.dragging) { this.setState({ dragging: false }); this.hueStop(); } },
+      toggleSound: () => {
+        const next = !this.state.sound;
+        try { localStorage.setItem('kk-sound', next ? '1' : '0'); } catch (e) {}
+        if (next) { this.ensureAudio(); this.setState({ sound: true }, () => setTimeout(() => this.sfx('on'), 40)); }
+        else { this.hueStop(); this.setState({ sound: false }); }
+      },
       unfocus: () => { if (this.scene) this.scene.setFocus(-1); },
       projects: [
-        { num: '01', tag: 'DevSecOps', title: 'Automated DevSecOps pipeline for secure cloud deployment', blurb: 'Zero-touch CI/CD on Jenkins and AWS EC2. SonarQube, OWASP and Trivy scan every stage of a containerized React / Node / Mongo stack.', stack: 'docker · jenkins · aws ec2 · sonarqube · trivy', focus: focus(0) },
-        { num: '02', tag: 'Infrastructure', title: 'High-performance website on NGINX, Docker & AWS EC2', blurb: 'NGINX for SSL termination and load balancing, Docker for repeatable deploys, hosted on EC2 at low latency with minimal downtime.', stack: 'nginx · docker · aws ec2', focus: focus(1) },
-        { num: '03', tag: 'Data · UHCL GRA', title: 'Texas Core Curriculum data & reporting dashboard', blurb: 'Messy course and enrollment records. Python + SQL ETL to clean and validate, then an interactive Power BI dashboard for stakeholders.', stack: 'python · sql · etl · power bi', focus: focus(2) },
-        { num: '04', tag: 'IEEE publication', title: 'Navigating the Cloudscape: strategies for seamless migration', blurb: 'Presented at ICICIT 2024, Bangkok. A cloud migration framework across IaaS/PaaS/SaaS, security, data complexity and change management.', stack: 'research · cloud architecture · migration', focus: focus(3) }
+        { num: '01', tag: 'AI agent', title: 'AI job search agent', blurb: 'An AI agent I built on the Claude Agent SDK to automate my own job search, finding roles that match my cloud and DevOps profile.', stack: 'claude agent sdk · python · llm tools', focus: focus(0) },
+        { num: '02', tag: 'ML · IoT', title: 'Real-time health monitoring ML pipeline', blurb: 'ESP32 vitals stream over MQTT (HiveMQ) into a scikit-learn model that returns a risk prediction in under 2 seconds. Validated across 100+ simulated readings.', stack: 'python · scikit-learn · mqtt (hivemq) · esp32 · colab', focus: focus(1) },
+        { num: '03', tag: 'DevSecOps', title: 'Automated DevSecOps pipeline for secure cloud deployment', blurb: 'Zero-touch CI/CD with Jenkins on AWS EC2. SonarQube, OWASP and Trivy scan every stage of a containerized React, Node and MongoDB app.', stack: 'docker · jenkins · aws ec2 · sonarqube · trivy', focus: focus(2) },
+        { num: '04', tag: 'Infrastructure', title: 'High-performance website on NGINX, Docker & AWS EC2', blurb: 'Dockerized site on AWS EC2 behind NGINX for SSL termination and load balancing. Repeatable deploys, low latency, minimal downtime.', stack: 'nginx · docker · aws ec2', focus: focus(3) },
+        { num: '05', tag: 'Data · UHCL GRA', title: 'Texas Core Curriculum data & reporting dashboard', blurb: 'Python and SQL ETL that cleans and validates course and enrollment records, feeding an interactive Power BI dashboard for university reporting.', stack: 'python · sql · etl · power bi', focus: focus(4) },
+        { num: '06', tag: 'IEEE publication', title: 'Navigating the Cloudscape: strategies for seamless migration', blurb: 'Presented at ICICIT 2024, Bangkok. A cloud migration framework covering IaaS, PaaS and SaaS, security, data complexity and change management.', stack: 'research · cloud architecture · migration', focus: focus(5) }
       ],
+
       roles: [
         { dates: 'Aug 2026 — present', role: 'Teaching Assistant, Computer Science', org: 'University of Houston–Clear Lake · Houston, TX', detail: 'Five courses — Data Structures & Algorithms, Operating Systems, Systems Administration, Research Methods — 100+ students weekly, plus office hours in Python and Java.' },
         { dates: 'Jan 2026 — Aug 2026', role: 'Graduate Research Assistant', org: 'University of Houston–Clear Lake · Houston, TX', detail: 'Migrated and validated 4,000+ student records in SQL; built Power BI dashboards on data quality, informing eight academic departments each term.' },
