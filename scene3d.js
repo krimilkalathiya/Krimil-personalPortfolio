@@ -20,11 +20,11 @@ function layouts(n) {
     const q = new THREE.Quaternion().setFromEuler(new THREE.Euler(0.62, -a + Math.PI / 2, 0, 'XYZ'));
     return { p, q, loose: 0.25 };
   }));
-  // 2 work: four towers
+  // 2 work: six towers
   L.push(Array.from({ length: n }, (_, i) => {
-    const t = i % 4, k = Math.floor(i / 4), per = Math.ceil(n / 4);
-    const x = (t - 1.5) * 3.3 + (k % 2 ? 0.08 : -0.08);
-    return { p: new THREE.Vector3(x, (k - per / 2) * 0.55 + 0.3, (k % 2) * 0.1), q: new THREE.Quaternion().setFromEuler(new THREE.Euler(0, (t - 1.5) * 0.18, 0)), loose: 0.08, group: t };
+    const t = i % 6, k = Math.floor(i / 6), per = Math.ceil(n / 6);
+    const x = (t - 2.5) * 2.5 + (k % 2 ? 0.08 : -0.08);
+    return { p: new THREE.Vector3(x, (k - per / 2) * 0.72 + 2.1, (k % 2) * 0.1), q: new THREE.Quaternion().setFromEuler(new THREE.Euler(0, (t - 2.5) * 0.12, 0)), loose: 0.06, group: t };
   }));
   // 3 experience: rising staircase
   L.push(Array.from({ length: n }, (_, i) => {
