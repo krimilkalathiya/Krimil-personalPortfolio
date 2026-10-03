@@ -27,6 +27,7 @@
   @keyframes pulse { 0%,100% { opacity:1;} 50% { opacity:.3;} }
   @keyframes scrollHint { 0% { transform:translateY(-100%);} 100% { transform:translateY(100%);} }
   @keyframes scan { from { transform:translateY(-100%);} to { transform:translateY(100vh);} }
+  @media (pointer: coarse) { [data-sound-toggle] { min-height:40px; padding:9px 14px !important; } }
   [data-ch] { height:auto !important; min-height:100vh; min-height:100dvh; overflow:visible !important; }
   @media (max-height: 760px) {
     [data-work-grid] p { font-size:11px !important; line-height:1.5 !important; }
@@ -333,11 +334,12 @@ class Component extends DCLogic {
       if (this.scene && e.gamma != null) this.scene.setMouse(Math.max(-1, Math.min(1, e.gamma / 30)), Math.max(-1, Math.min(1, (e.beta - 45) / 30)));
     };
     if (window.matchMedia('(pointer: coarse)').matches) window.addEventListener('deviceorientation', this.onTilt, { passive: true });
-    this.armAudio = () => {
+    this.armAudio = (e) => {
       if (!this.state.sound) return;
-      const first = !this.audio || this.audio.state !== 'running';
+      if (e && e.target && e.target.closest && e.target.closest('[data-sound-toggle]')) return;
+      if (this.audio && this.audio.state === 'running') return;
+      this.pendingChime = true;
       this.ensureAudio();
-      if (first) setTimeout(() => this.sfx('on'), 60);
     };
     ['pointerdown', 'keydown', 'touchend'].forEach(ev => window.addEventListener(ev, this.armAudio, { passive: true }));
     // delegated UI sounds for the whole page
@@ -489,7 +491,21 @@ class Component extends DCLogic {
         a.onstatechange = () => this.setState({ audioReady: a.state === 'running' });
       } catch (e) { this.audio = null; return; }
     }
-    if (this.audio.state === 'suspended') this.audio.resume().then(() => this.setState({ audioReady: true })).catch(() => {});
+    // iOS: route web audio through the media channel so the silent switch doesn't mute it
+    try { if (navigator.audioSession) navigator.audioSession.type = 'playback'; } catch (e) {}
+    if (!this.silentEl) {
+      try {
+        this.silentEl = new Audio('data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=');
+        this.silentEl.setAttribute('playsinline', '');
+        this.silentEl.loop = true; this.silentEl.volume = 0.0001;
+        const p = this.silentEl.play(); if (p && p.catch) p.catch(() => {});
+      } catch (e) {}
+    }
+    // a tiny buffer started inside the gesture fully unlocks older Safari
+    try { const b = this.audio.createBuffer(1, 1, 22050), src = this.audio.createBufferSource(); src.buffer = b; src.connect(this.audio.destination); src.start(0); } catch (e) {}
+    const done = () => { this.setState({ audioReady: true }); if (this.pendingChime) { this.pendingChime = false; this.sfx('on'); } };
+    if (this.audio.state === 'running') done();
+    else this.audio.resume().then(done).catch(() => {});
   }
 
   tone(type, f0, f1, dur, vol, when) {
@@ -579,7 +595,7 @@ class Component extends DCLogic {
       typed: this.state.typed,
       introPct: this.state.introPct,
       introLog: this.state.introLog,
-      soundLabel: !this.state.sound ? 'off' : (this.state.audioReady ? 'on' : 'tap to enable'),
+      soundLabel: !this.state.sound ? 'off' : (this.state.audioReady ? 'on' : 'tap to turn on'),
       hueRef: this.hueRef,
       huePct: ((this.state.hue == null ? 65 : this.state.hue) / 3.6).toFixed(2) + '%',
       hueLabel: (this.state.hue == null ? 65 : this.state.hue) + '°',
@@ -588,8 +604,10 @@ class Component extends DCLogic {
       hueUp: () => { if (this.state.dragging) { this.setState({ dragging: false }); this.hueStop(); } },
       toggleSound: () => {
         const next = !this.state.sound;
+        // "tap to enable" means sound is on but blocked: unlock it, don't toggle it off
+        if (this.state.sound && !(this.audio && this.audio.state === 'running')) { this.pendingChime = true; this.ensureAudio(); return; }
         try { localStorage.setItem('kk-sound', next ? '1' : '0'); } catch (e) {}
-        if (next) { this.ensureAudio(); this.setState({ sound: true }, () => setTimeout(() => this.sfx('on'), 40)); }
+        if (next) { this.setState({ sound: true }, () => { this.pendingChime = true; this.ensureAudio(); }); }
         else { this.hueStop(); this.setState({ sound: false }); }
       },
       unfocus: () => { if (this.scene) this.scene.setFocus(-1); },
